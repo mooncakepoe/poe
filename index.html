@@ -1,1 +1,198 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Proof of Existence | Bitcoin Anchored Notarization</title>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #d4af37; /* Gold */
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background-color: #fffdf5;
+            border: 1px solid #f0e6c1;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background-color: #fff5f5;
+            border: 1px solid #feb2b2;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            color: #c53030;
+            font-weight: bold;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 50px;
+            padding-bottom: 40px;
+        }
+
+        .tech-specs {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Proof of Existence</h1>
+        <div class="subtitle">Immutable Bitcoin-Anchored Notarization</div>
+    </header>
+
+    <section>
+        <h2>1. The Concept</h2>
+        <p>Our Proof of Existence (PoE) service allows you to prove that a specific digital asset existed at a specific point in time without revealing the contents of the file or requiring a centralized third-party notary. By anchoring cryptographic data to the Bitcoin Blockchain, we provide a proof that is mathematically indisputable and globally verifiable.</p>
+    </section>
+
+    <section>
+        <h2>2. Privacy-First Architecture</h2>
+        <p>We utilize <strong>Client-Side Hashing</strong> to ensure your data remains entirely private. When you select a file in your browser:</p>
+        <ul class="step-list">
+            <li data-step="1">Your browser generates a <code>SHA-256</code> cryptographic fingerprint (hash) locally.</li>
+            <li data-step="2"><strong>Your actual file is never uploaded to our servers.</strong></li>
+            <li data-step="3">Only the 64-character hash is transmitted to the anchoring pipeline.</li>
+        </ul>
+        <p>This ensures that even if our systems were compromised, your original documents remain secure within your own local environment.</p>
+    </section>
+
+    <section>
+        <h2>3. The "Merkle Tree" Process</h2>
+        <p>To provide industrial-scale notarization, we do not "burn" individual hashes directly onto the blockchain. Instead, we use a mathematical structure known as a <strong>Merkle Tree</strong>.</p>
+        <div class="highlight-box">
+            <strong>How the "Merge" Works:</strong>
+            <p>Your hash is combined with thousands of others to form a single <strong>Merkle Root</strong>. It is this Root—a mathematical summary of all included files—that is permanently recorded on the Bitcoin Blockchain. This process allows for massive scalability while maintaining the security of the Bitcoin network.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. The .ots File: Your Key to the Proof</h2>
+        <p>Once the Bitcoin network confirms the block containing the Merkle Root, you will receive an upgraded <code>.ots</code> (OpenTimestamps) file via email.</p>
+        <p><strong>This file is not just a receipt; it is the proof itself.</strong> It contains the mathematical "Merkle Path" required to climb from your individual file hash up to the Merkle Root stored on the blockchain. Without this file, the blockchain entry is useless to you, as it cannot be linked back to your specific document.</p>
+        
+        <div class="warning-box">
+            CRITICAL RESPONSIBILITY NOTICE:
+            <p>This service is non-custodial. We do not provide long-term storage for your proofs. Once the .ots file is delivered to your email, it is your sole responsibility to store it securely alongside your original file. If you lose either the original file or the .ots proof, you will be unable to verify your claim in the future.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Independent Verification</h2>
+        <p>The power of this system is that you do not need to trust us to verify your proof in the future. You can use any independent OpenTimestamps client or the public tools at <strong>OpenTimestamps.org</strong> to verify that your file matches the anchor on the Bitcoin blockchain.</p>
+        <p style="text-align: center; font-weight: bold; margin-top: 30px;">"In Math We Trust"</p>
+    </section>
+
+    <footer>
+        <div class="tech-specs">
+            <span>Protocol: OpenTimestamps</span>
+            <span>Ledger: Bitcoin Mainnet</span>
+            <span>Algorithm: SHA-256</span>
+        </div>
+        <p>&copy; 2026 Decentralized Notary Service. All rights reserved.</p>
+    </footer>
+</div>
+
+</body>
+</html>
