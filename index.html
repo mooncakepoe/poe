@@ -9,8 +9,9 @@
             --primary-color: #1a1a1a;
             --accent-color: #d4af37; /* Gold */
             --text-color: #333;
-            --bg-color: #f9f9f9;
+            --bg-color: #f4f4f4;
             --card-bg: #ffffff;
+            --link-color: #0052ff;
         }
 
         body {
@@ -50,7 +51,7 @@
 
         section {
             background: var(--card-bg);
-            padding: 30px;
+            padding: 35px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             margin-bottom: 30px;
@@ -61,6 +62,34 @@
             border-left: 5px solid var(--accent-color);
             padding-left: 15px;
             margin-top: 0;
+        }
+
+        /* Call to Action Styling */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 18px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background-color: #e5c04a;
         }
 
         .highlight-box {
@@ -78,34 +107,13 @@
             border-radius: 4px;
             margin: 20px 0;
             color: #c53030;
-            font-weight: bold;
         }
 
-        .step-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .step-list li {
-            margin-bottom: 20px;
-            padding-left: 40px;
-            position: relative;
-        }
-
-        .step-list li::before {
-            content: attr(data-step);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: var(--accent-color);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 25px;
-            font-weight: bold;
-            font-size: 0.8rem;
+        .verification-steps {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 4px;
+            border-left: 5px solid var(--link-color);
         }
 
         code {
@@ -142,46 +150,48 @@
         <div class="subtitle">Immutable Bitcoin-Anchored Notarization</div>
     </header>
 
+    <!-- NEW: Call to Action Section -->
+    <div class="cta-section">
+        <h2>Ready to Notarize Your Asset?</h2>
+        <p>Use our secure portal to generate a cryptographic fingerprint of your file locally and anchor it to the Bitcoin blockchain. Your data never leaves your browser.</p>
+        <a href="hash-input.html" class="cta-button">Go to Ingestion Portal →</a>
+    </div>
+
     <section>
         <h2>1. The Concept</h2>
         <p>Our Proof of Existence (PoE) service allows you to prove that a specific digital asset existed at a specific point in time without revealing the contents of the file or requiring a centralized third-party notary. By anchoring cryptographic data to the Bitcoin Blockchain, we provide a proof that is mathematically indisputable and globally verifiable.</p>
     </section>
 
     <section>
-        <h2>2. Privacy-First Architecture</h2>
-        <p>We utilize <strong>Client-Side Hashing</strong> to ensure your data remains entirely private. When you select a file in your browser:</p>
-        <ul class="step-list">
-            <li data-step="1">Your browser generates a <code>SHA-256</code> cryptographic fingerprint (hash) locally.</li>
-            <li data-step="2"><strong>Your actual file is never uploaded to our servers.</strong></li>
-            <li data-step="3">Only the 64-character hash is transmitted to the anchoring pipeline.</li>
-        </ul>
-        <p>This ensures that even if our systems were compromised, your original documents remain secure within your own local environment.</p>
-    </section>
-
-    <section>
-        <h2>3. The "Merkle Tree" Process</h2>
-        <p>To provide industrial-scale notarization, we do not "burn" individual hashes directly onto the blockchain. Instead, we use a mathematical structure known as a <strong>Merkle Tree</strong>.</p>
+        <h2>2. Privacy & The Merkle Tree</h2>
+        <p>We utilize <strong>Client-Side Hashing</strong>. Your browser generates a <code>SHA-256</code> hash locally; your actual file is <strong>never uploaded</strong>. To ensure scalability, your hash is merged with others into a <strong>Merkle Tree</strong>.</p>
         <div class="highlight-box">
-            <strong>How the "Merge" Works:</strong>
-            <p>Your hash is combined with thousands of others to form a single <strong>Merkle Root</strong>. It is this Root—a mathematical summary of all included files—that is permanently recorded on the Bitcoin Blockchain. This process allows for massive scalability while maintaining the security of the Bitcoin network.</p>
+            <strong>The "Merge" Logic:</strong>
+            <p>The Bitcoin blockchain records a single <strong>Merkle Root</strong>—a mathematical summary of thousands of hashes. Your <code>.ots</code> file contains the specific "path" required to prove your hash is part of that Root.</p>
         </div>
     </section>
 
     <section>
-        <h2>4. The .ots File: Your Key to the Proof</h2>
-        <p>Once the Bitcoin network confirms the block containing the Merkle Root, you will receive an upgraded <code>.ots</code> (OpenTimestamps) file via email.</p>
-        <p><strong>This file is not just a receipt; it is the proof itself.</strong> It contains the mathematical "Merkle Path" required to climb from your individual file hash up to the Merkle Root stored on the blockchain. Without this file, the blockchain entry is useless to you, as it cannot be linked back to your specific document.</p>
+        <h2>3. How to Verify Your Proof</h2>
+        <p>Once you receive your upgraded <code>.ots</code> file via email, you possess an independent proof. You do not need this website to verify it. Follow these steps to see the proof on the blockchain:</p>
         
-        <div class="warning-box">
-            CRITICAL RESPONSIBILITY NOTICE:
-            <p>This service is non-custodial. We do not provide long-term storage for your proofs. Once the .ots file is delivered to your email, it is your sole responsibility to store it securely alongside your original file. If you lose either the original file or the .ots proof, you will be unable to verify your claim in the future.</p>
+        <div class="verification-steps">
+            <ol>
+                <li><strong>Prepare:</strong> Ensure you have your <strong>Original File</strong> and the <strong>.ots file</strong> we emailed to you.</li>
+                <li><strong>Visit a Verifier:</strong> Go to <a href="https://opentimestamps.org" target="_blank" style="color: var(--link-color);">OpenTimestamps.org</a> or use any local OTS client.</li>
+                <li><strong>Upload:</strong> Drag and drop your <code>.ots</code> file into the verifier.</li>
+                <li><strong>Match:</strong> The verifier will ask for the original file to confirm the hash matches the one inside the proof.</li>
+                <li><strong>View Result:</strong> The tool will display the <strong>Bitcoin Block Height</strong> and the exact timestamp when the data was anchored. You can then click the block number to see the transaction on a Bitcoin explorer like <em>Mempool.space</em>.</li>
+            </ol>
         </div>
     </section>
 
     <section>
-        <h2>5. Independent Verification</h2>
-        <p>The power of this system is that you do not need to trust us to verify your proof in the future. You can use any independent OpenTimestamps client or the public tools at <strong>OpenTimestamps.org</strong> to verify that your file matches the anchor on the Bitcoin blockchain.</p>
-        <p style="text-align: center; font-weight: bold; margin-top: 30px;">"In Math We Trust"</p>
+        <h2>4. Critical Responsibility Notice</h2>
+        <div class="warning-box">
+            <strong>Non-Custodial Service:</strong>
+            <p>We do not store your files or your proofs long-term. Our system is designed to facilitate the anchoring and delivery process only. <strong>You are the sole custodian of your evidence.</strong> You must keep the original file and the .ots file together. If either is lost, the proof becomes mathematically impossible to verify.</p>
+        </div>
     </section>
 
     <footer>
@@ -190,7 +200,8 @@
             <span>Ledger: Bitcoin Mainnet</span>
             <span>Algorithm: SHA-256</span>
         </div>
-        <p>&copy; 2026 Decentralized Notary Service. All rights reserved.</p>
+        <p style="margin-top: 20px; font-weight: bold;">"In Math We Trust"</p>
+        <p>&copy; 2026 Decentralized Notary Service.</p>
     </footer>
 </div>
 
