@@ -13,28 +13,24 @@
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
         .tab-btn { flex: 1; padding: 10px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 6px; font-weight: 600; transition: 0.2s; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        
         .input-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
         input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        
         #drop-zone { border: 2px dashed #cbd5e0; padding: 40px; text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; background: #fafafa; }
         #drop-zone.hover { border-color: var(--primary); background: #f0f7ff; }
-        
         .hidden { display: none; }
         button#submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         button#submit-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
         #status { margin-top: 20px; padding: 15px; border-radius: 6px; font-size: 0.85rem; background: #f1f1f1; white-space: pre-wrap; word-break: break-all; }
+        .back-link { display: block; text-align: center; margin-top: 20px; font-size: 0.8rem; color: #666; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>🛡️ Blockchain Notary</h1>
-    <p style="font-size: 0.9rem; color: #666;">Create a permanent, legal-grade timestamp for your digital assets.</p>
-
     <div class="privacy-badge">
-        <strong>Privacy Guarantee:</strong> Hashing happens locally in your browser. Your files are <u>never</u> uploaded to our servers. We only receive the digital fingerprint. Alternatively, you can generate your own hash in your own system and only submit your hash value here.
+        <strong>Privacy:</strong> Hashing happens locally. Your files are <u>never</u> uploaded.
     </div>
 
     <div class="tabs">
@@ -42,60 +38,46 @@
         <button id="btn-manual" class="tab-btn" onclick="setMode('manual')">Manual Hash</button>
     </div>
 
-    <!-- Mode 1: File Selection -->
     <div id="file-mode">
         <div id="drop-zone">Drag & Drop file here <br> or click to browse</div>
         <input type="file" id="file-input" class="hidden">
     </div>
 
-    <!-- Mode 2: Manual Hash -->
     <div id="manual-mode" class="hidden">
         <div class="input-group">
             <label>Filename / Reference Name</label>
-            <input type="text" id="manual-filename" placeholder="e.g. 1.odt or project_blueprint">
+            <input type="text" id="manual-filename" placeholder="e.g. project_blueprint">
         </div>
         <div class="input-group">
             <label>SHA-256 Hash Value</label>
-            <input type="text" id="manual-hash" placeholder="Paste your 64-character hex hash here">
+            <input type="text" id="manual-hash" placeholder="Paste 64-character hex hash">
         </div>
     </div>
 
-    <!-- Common Inputs -->
     <div class="input-group" style="margin-top:20px;">
-        <label>Email Address (To receive your proof)</label>
+        <label>Email Address (For proof delivery)</label>
         <input type="email" id="user-email" placeholder="email@example.com">
     </div>
 
-    <!-- Security Input -->
     <div class="input-group">
         <label>Access Key</label>
-        <input type="password" id="access-key" placeholder="Enter your private access key">
+        <input type="password" id="access-key" placeholder="Enter your POE-XXXXXX key">
     </div>
 
     <button id="submit-btn" disabled>Secure on Blockchain</button>
-
     <div id="status">Status: Waiting for input...</div>
+    <a href="index.html" class="back-link">← Back to Information Page</a>
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    // const WEBHOOK_URL = 'https://destructively-crystallizable-tristin.ngrok-free.dev/webhook/submit-hash'; 
-    // moving NGROK to ZROK hence the URL changes
     const WEBHOOK_URL = 'https://mooncake.share.zrok.io/webhook/pi-poe';
-    let currentMode = 'file';
-    let currentHash = '';
-    let currentFilename = '';
+    let currentMode = 'file', currentHash = '', currentFilename = '';
 
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
-    const manualHashInput = document.getElementById('manual-hash');
-    const manualFilenameInput = document.getElementById('manual-filename');
-    const emailInput = document.getElementById('user-email');
-    const accessKeyInput = document.getElementById('access-key');
-    const submitBtn = document.getElementById('submit-btn');
-    const status = document.getElementById('status');
+    const dropZone = document.getElementById('drop-zone'), fileInput = document.getElementById('file-input');
+    const manualHashInput = document.getElementById('manual-hash'), manualFilenameInput = document.getElementById('manual-filename');
+    const emailInput = document.getElementById('user-email'), accessKeyInput = document.getElementById('access-key');
+    const submitBtn = document.getElementById('submit-btn'), status = document.getElementById('status');
 
-    // --- UI Logic ---
     function setMode(mode) {
         currentMode = mode;
         document.getElementById('btn-file').classList.toggle('active', mode === 'file');
@@ -108,93 +90,52 @@
     function validate() {
         const emailValid = emailInput.value.includes('@') && emailInput.value.length > 5;
         const keyValid = accessKeyInput.value.trim().length > 0;
-        
         if (currentMode === 'file') {
             submitBtn.disabled = !(currentHash && emailValid && keyValid);
         } else {
-            const hashValue = manualHashInput.value.trim();
-            const filenameValue = manualFilenameInput.value.trim();
-            const hashValid = /^[a-f0-9]{64}$/i.test(hashValue);
-            const nameValid = filenameValue.length > 0;
-            
-            if (hashValid) currentHash = hashValue;
-            
-            if (nameValid) {
-                if (filenameValue.includes('.')) {
-                    const parts = filenameValue.split('.');
-                    const ext = parts.pop();
-                    currentFilename = parts.join('.') + '_manual.' + ext;
-                } else {
-                    currentFilename = filenameValue + '_manual';
-                }
-            }
+            const hashValid = /^[a-f0-9]{64}$/i.test(manualHashInput.value.trim());
+            const nameValid = manualFilenameInput.value.trim().length > 0;
+            if (hashValid) currentHash = manualHashInput.value.trim();
+            currentFilename = manualFilenameInput.value.trim();
             submitBtn.disabled = !(hashValid && emailValid && nameValid && keyValid);
         }
     }
 
-    // Listeners
-    emailInput.oninput = validate;
-    manualHashInput.oninput = validate;
-    manualFilenameInput.oninput = validate;
-    accessKeyInput.oninput = validate;
-
-    // --- File Handling ---
+    emailInput.oninput = manualHashInput.oninput = manualFilenameInput.oninput = accessKeyInput.oninput = validate;
     dropZone.onclick = () => fileInput.click();
     fileInput.onchange = (e) => handleFile(e.target.files[0]);
     dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('hover'); };
     dropZone.ondragleave = () => dropZone.classList.remove('hover');
-    dropZone.ondrop = (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('hover');
-        handleFile(e.dataTransfer.files[0]);
-    };
+    dropZone.ondrop = (e) => { e.preventDefault(); dropZone.classList.remove('hover'); handleFile(e.dataTransfer.files[0]); };
 
     async function handleFile(file) {
         if (!file) return;
         currentFilename = file.name;
         status.innerText = "Calculating fingerprint locally...";
-        
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            currentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            
-            status.innerText = `File: ${currentFilename}\nHash: ${currentHash}`;
-            validate();
-        } catch (err) {
-            status.innerText = "❌ Hashing failed. Please use a modern browser.";
-        }
+        const arrayBuffer = await file.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+        currentHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        status.innerText = `File: ${currentFilename}\nHash: ${currentHash}`;
+        validate();
     }
 
-    // --- Submission ---
     submitBtn.onclick = async () => {
         status.innerText = "Connecting to secure gateway...";
         submitBtn.disabled = true;
-
         try {
             const response = await fetch(WEBHOOK_URL, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-notary-secret': accessKeyInput.value.trim() // Sending the key here
-                },
-                body: JSON.stringify({
-                    filename: currentFilename,
-                    hash: currentHash,
-                    email: emailInput.value
-                })
+                headers: { 'Content-Type': 'application/json', 'x-notary-secret': accessKeyInput.value.trim() },
+                body: JSON.stringify({ filename: currentFilename, hash: currentHash, email: emailInput.value })
             });
 
+            const data = await response.json(); // DYNAMIC FIX: Parse the JSON from n8n
+
             if (response.ok) {
-                status.innerHTML = `<b style="color:green">✅ SUBMISSION SUCCESSFUL</b><br>
-                Reference: <b>${currentFilename}</b><br>
-                Your receipt has been generated. You will receive the permanent proof at <b>${emailInput.value}</b> within 24 hours.`;
-            } else if (response.status === 401) {
-                status.innerText = "❌ Invalid Access Key. Please check your password.";
-                submitBtn.disabled = false;
+                status.innerHTML = `<b style="color:green">✅ SUCCESS</b><br>${data.message}<br>Delivery to: <b>${emailInput.value}</b>`;
             } else {
-                status.innerText = "❌ Server Error. Please try again later.";
+                // DYNAMIC FIX: Show the specific reason from n8n (e.g. "Key Expired")
+                status.innerHTML = `<b style="color:red">❌ ${data.message || 'Error'}</b><br>${data.reason || 'Please check your access key.'}`;
                 submitBtn.disabled = false;
             }
         } catch (err) {
@@ -203,6 +144,5 @@
         }
     };
 </script>
-
 </body>
 </html>
