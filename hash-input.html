@@ -139,15 +139,26 @@
     dropZone.ondrop = (e) => { e.preventDefault(); dropZone.classList.remove('hover'); handleFile(e.dataTransfer.files[0]); };
 
     async function handleFile(file) {
-        if (!file) return;
-        currentFilename = file.name;
-        status.innerText = "Calculating fingerprint locally...";
+    if (!file) return;
+    currentFilename = file.name;
+    status.innerText = "Calculating fingerprint locally...";
+    
+    try {
         const arrayBuffer = await file.arrayBuffer();
         const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
-        currentHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-        status.innerText = `File: ${currentFilename}\nHash: ${currentHash}`;
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        currentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        // FIX: Use innerHTML and the hash-text class to prevent spilling
+        status.innerHTML = `
+            <b>File:</b> ${currentFilename}<br>
+            <b>Hash:</b> <span class="hash-text">${currentHash}</span>
+        `;
         validate();
+    } catch (err) {
+        status.innerText = "❌ Hashing failed. Please use a modern browser.";
     }
+}
 
     submitBtn.onclick = async () => {
         status.innerText = "Connecting to secure gateway...";
