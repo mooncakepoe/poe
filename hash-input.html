@@ -162,7 +162,16 @@
             const data = await response.json(); // DYNAMIC FIX: Parse the JSON from n8n
 
             if (response.ok) {
-                status.innerHTML = `<b style="color:green">✅ SUCCESS</b><br>${data.message}<br>Delivery to: <b>${emailInput.value}</b>`;
+                status.innerHTML = `
+        <b style="color:green; font-size: 1rem;">✅ SUCCESS</b><br>
+        <p style="margin: 10px 0;">${data.message}</p>
+        
+        <div class="ref-box">
+            <b>Delivery to:</b> ${emailInput.value}<br>
+            <b>File:</b> ${data.filename || currentFilename}<br>
+            <b>Hash:</b> <span class="hash-text">${data.hash || currentHash}</span>
+        </div>
+    `;
             } else {
                 // DYNAMIC FIX: Show the specific reason from n8n (e.g. "Key Expired")
                 status.innerHTML = `<b style="color:red">❌ ${data.message || 'Error'}</b><br>${data.reason || 'Please check your access key.'}`;
