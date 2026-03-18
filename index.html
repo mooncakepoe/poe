@@ -257,28 +257,38 @@
 
 <script>
     async function requestKey() {
-        const name = document.getElementById('req-name').value;
-        const email = document.getElementById('req-email').value;
-        const status = document.getElementById('req-status');
+    const name = document.getElementById('req-name').value;
+    const email = document.getElementById('req-email').value;
+    const status = document.getElementById('req-status');
 
-        if(!name || !email) { status.innerText = "Please fill in both fields."; return; }
-
-        status.innerText = "Generating key...";
-        try {
-            const response = await fetch('https://mooncake.share.zrok.io/webhook/request-poe-key', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name, email})
-            });
-            if(response.ok) {
-                status.innerHTML = "<b style='color:#d4af37'>Success! Check your email for your key.</b>";
-            } else {
-                status.innerText = "Error requesting key. Please try again later.";
-            }
-        } catch (e) {
-            status.innerText = "Connection error. Check your internet.";
-        }
+    if(!name || !email) { 
+        status.innerText = "Please fill in both fields."; 
+        return; 
     }
+
+    status.innerText = "Generating key...";
+    
+    try {
+        const response = await fetch('https://mooncake.share.zrok.io/webhook/request-poe-key', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name, email})
+        });
+
+        // 1. Parse the JSON data sent by n8n
+        const data = await response.json();
+
+        if(response.ok) {
+            status.innerHTML = "<b style='color:#d4af37'>Success! Check your email for your key.</b>";
+        } else {
+            // 2. Use the specific message or reason from n8n
+            // This will now show "Cooldown Active" or "Wait 48h"
+            status.innerHTML = `<b style="color:#ff4d4d">❌ ${data.message || 'Error'}</b><br>${data.reason || 'Please try again later.'}`;
+        }
+    } catch (e) {
+        status.innerText = "Connection error. Check your internet.";
+    }
+}
 </script>
 </body>
 </html>
