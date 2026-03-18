@@ -280,6 +280,8 @@
 
         if(response.ok) {
             status.innerHTML = "<b style='color:#d4af37'>Success! Check your email for your key.</b>";
+            document.getElementById('req-name').value = "";
+            document.getElementById('req-email').value = "";
         } else {
             // 2. Use the specific message or reason from n8n
             // This will now show "Cooldown Active" or "Wait 48h"
