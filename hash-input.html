@@ -21,7 +21,37 @@
         .hidden { display: none; }
         button#submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         button#submit-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
-        #status { margin-top: 20px; padding: 15px; border-radius: 6px; font-size: 0.85rem; background: #f1f1f1; white-space: pre-wrap; word-break: break-all; }
+        #status { 
+    margin-top: 20px; 
+    padding: 20px; 
+    border-radius: 8px; 
+    font-size: 0.9rem; 
+    background: #f8f9fa; 
+    border: 1px solid #e1e8ed;
+    white-space: pre-wrap; 
+    word-break: normal; /* Fix: Words will now wrap properly */
+    line-height: 1.5;
+    color: #333;
+}
+
+/* New style for the technical reference section */
+.ref-box {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.hash-text {
+    font-family: 'Courier New', monospace;
+    word-break: break-all; /* Only the hash is allowed to break mid-character */
+    display: block;
+    background: #eee;
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
         .back-link { display: block; text-align: center; margin-top: 20px; font-size: 0.8rem; color: #666; text-decoration: none; }
     </style>
 </head>
