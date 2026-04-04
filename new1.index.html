@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Proof of Existence | Bitcoin Anchored Notarization</title>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #d4af37; /* Gold */
+            --text-color: #2d3436;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --link-color: #0052ff;
+            --border-color: #e1e8ed;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #333 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            margin-bottom: 40px;
+        }
+
+        .hero-banner h1 {
+            font-family: 'Segoe UI', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin: 0;
+            font-size: 2.8rem;
+            color: white;
+        }
+
+        .hero-banner .subtitle {
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 20px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0;
+        }
+
+        .intro-text { font-size: 1.1rem; text-align: justify; }
+
+        .highlight-box {
+            background-color: #fffdf5;
+            border-left: 4px solid var(--accent-color);
+            padding: 25px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .tribute-box {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e3ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .case-study { border-top: 1px solid var(--border-color); padding-top: 25px; margin-top: 25px; }
+        .case-study:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+        .case-study strong { color: var(--primary-color); display: block; margin-bottom: 10px; font-family: 'Segoe UI', sans-serif; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
+
+        .verification-steps { background-color: #f8f9fa; padding: 30px; border-radius: 8px; font-family: 'Segoe UI', sans-serif; }
+
+        .warning-box {
+            background-color: #fff5f5;
+            border: 1px solid #feb2b2;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            color: #c53030;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        /* Key Request Form Styling */
+        .cta-section {
+            text-align: center;
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            margin-top: 40px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .key-form {
+            max-width: 400px;
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .key-form input {
+            padding: 12px;
+            border-radius: 4px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover { background-color: #e5c04a; transform: translateY(-2px); }
+        .portal-link { display: block; margin-top: 25px; color: var(--accent-color); text-decoration: underline; font-size: 0.9rem; }
+
+        .contact-info { text-align: center; margin-top: 40px; font-family: 'Segoe UI', sans-serif; color: #636e72; }
+
+        footer { text-align: center; font-size: 0.85rem; color: #b2bec3; margin-top: 60px; padding-bottom: 40px; font-family: 'Segoe UI', sans-serif; }
+        .tech-specs { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="hero-banner">
+    <h1>Digital Notarization</h1>
+    <div class="subtitle">The Science of Immutable Proof</div>
+</div>
+
+<div class="container">
+    
+    <section>
+        <h2>The Architecture of Trust</h2>
+        <div class="intro-text">
+            <p>In the digital age, information is fluid. Files can be altered, timestamps can be backdated, and digital records can be deleted with a single keystroke. This inherent volatility creates a "Digital Dilemma": how can one prove, with absolute certainty, that a specific document, contract, or creative work existed in a specific state at a specific point in history?</p>
+            <p>The answer lies in the convergence of <strong>One-Way Cryptographic Hashing</strong> and <strong>blockchain technologies</strong>. While various decentralized ledgers exist, our service utilizes the <strong>Bitcoin Blockchain</strong>—the most widely adopted and computationally secure ledger in history—to provide the ultimate anchor for your data.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Standing on the Shoulders of Giants</h2>
+        <div class="tribute-box">
+            <p>This service is made possible by the tireless work of the global open-source community. We wish to pay special tribute to the <strong>OpenTimestamps (OTS)</strong> project. Their pioneering work has provided the world with a standard for trust that is open, free, and independent of any single corporate entity.</p>
+            <p>By leveraging the OTS protocol, we are able to offer this notarization service <strong>entirely for free</strong>. We believe that the ability to prove the existence of information is a fundamental digital right.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>The Merkle Tree & Scalability</h2>
+        <p>To maintain efficiency, the system utilizes a <strong>Merkle Tree</strong> structure. Rather than attempting to record every individual user hash directly on-chain, we "merge" thousands of hashes into a single mathematical summary known as a <strong>Merkle Root</strong>.</p>
+        <div class="highlight-box">
+            The Bitcoin blockchain records only the final Root, while your <code>.ots</code> file contains the specific "Merkle Path" required to prove that your individual hash was a constituent part of that Root.
+        </div>
+    </section>
+
+    <section>
+        <h2>Practical Applications</h2>
+        <div class="case-study">
+            <strong>Case Study I: Intellectual Property Safeguarding</strong>
+            <p>Before filing a patent, generating a Proof of Existence for your research papers or code creates a "Digital Seal" of possession. Should a dispute arise, your Bitcoin-anchored timestamp serves as indisputable evidence of prior existence.</p>
+        </div>
+        <div class="case-study">
+            <strong>Case Study II: Legal Integrity & Chain of Custody</strong>
+            <p>By notarizing a document at the moment of signing, you ensure that any future attempt to alter the text will result in a hash mismatch, proving the version being viewed is identical to the original.</p>
+        </div>
+    </section>
+// me added the two user input:
+    <!-- NEW TESTIMONIALS SECTION -->
+    <section>
+        <h2>Real-World Peace of Mind</h2>
+        <div class="case-study">
+            <strong>Scenario I: Property Settlement Protection</strong>
+            <div class="testimonial-quote">
+                "Before settling on my new home, I noticed a large tree had been cut down. Unsure if it had proper approval, I took a photo and timestamped it immediately. This proved the tree was gone <b>before</b> I took ownership, protecting me from future council disputes. A huge weight off my shoulders!"
+            </div>
+            <div class="testimonial-author">— New Homeowner, Property Dispute Prevention</div>
+        </div>
+        <div class="case-study">
+            <strong>Scenario II: Pre-Construction Condition Audit</strong>
+            <div class="testimonial-quote">
+                "A large construction project started next door involving heavy excavation. To protect myself, I took photos of my existing walls, zipped them up, and created a blockchain timestamp. Now I have indisputable evidence of my home's condition before their work started. Simple, free, and secure."
+            </div>
+            <div class="testimonial-author">— Homeowner, Risk Mitigation</div>
+        </div>
+    </section>
+    
+    <section>
+        <h2>Verification Protocol</h2>
+        <div class="verification-steps">
+            <ol>
+                <li><strong>Original Asset:</strong> Retain your original, unaltered file.</li>
+                <li><strong>The Proof:</strong> Use the <code>.ots</code> file delivered to your email.</li>
+                <li><strong>Independent Verifier:</strong> Visit <a href="https://opentimestamps.org" target="_blank" style="color: var(--link-color);">OpenTimestamps.org</a>.</li>
+                <li><strong>Mathematical Match:</strong> Drag both files into the verifier to confirm the anchor in a specific Bitcoin Block.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section>
+        <h2>Custodial Responsibility</h2>
+        <div class="warning-box">
+            <strong>NOTICE:</strong> This is a non-custodial service. <strong>You are the sole custodian of your evidence.</strong> You must store the original file and the proof together. If either is lost, the notarization becomes mathematically impossible to verify.
+        </div>
+    </section>
+
+    <!-- KEY REQUEST FORM -->
+    <div class="cta-section">
+        <h2 style="color: white; border: none;">Get Started</h2>
+        <p>Request a temporary access key to begin notarizing your assets.</p>
+        
+        <div class="key-form">
+            <input type="text" id="req-name" placeholder="Your Name">
+            <input type="email" id="req-email" placeholder="Your Email">
+            <button class="cta-button" onclick="requestKey()">Request Access Key</button>
+            <div id="req-status" style="margin-top:15px; font-size:0.9rem;"></div>
+        </div>
+
+        <a href="hash-input.html" class="portal-link">Already have a key? Go to Ingestion Portal →</a>
+    </div>
+
+    <div class="contact-info">
+        <p>Questions? Contact us at: <a href="mailto:mooncake.poe@gmail.com" style="color: var(--link-color);">mooncake.poe@gmail.com</a></p>
+    </div>
+
+    <footer>
+        <div class="tech-specs">
+            <span>SHA-256</span>
+            <span>Bitcoin Mainnet</span>
+            <span>OpenTimestamps</span>
+        </div>
+        <p style="font-weight: bold; color: var(--primary-color);">"In Math We Trust"</p>
+        <p>&copy; 2026 Decentralized Notary Service. Powered by Open Source.</p>
+    </footer>
+</div>
+
+<script>
+    async function requestKey() {
+    const name = document.getElementById('req-name').value;
+    const email = document.getElementById('req-email').value;
+    const status = document.getElementById('req-status');
+
+    if(!name || !email) { 
+        status.innerText = "Please fill in both fields."; 
+        return; 
+    }
+
+    status.innerText = "Generating key...";
+    
+    try {
+        const response = await fetch('https://mooncake.share.zrok.io/webhook/request-poe-key', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name, email})
+        });
+
+        // 1. Parse the JSON data sent by n8n
+        const data = await response.json();
+
+        if(response.ok) {
+            status.innerHTML = "<b style='color:#d4af37'>Success! Check your email for your key.</b>";
+            document.getElementById('req-name').value = "";
+            document.getElementById('req-email').value = "";
+        } else {
+            // 2. Use the specific message or reason from n8n
+            // This will now show "Cooldown Active" or "Wait 48h"
+            status.innerHTML = `<b style="color:#ff4d4d">❌ ${data.message || 'Error'}</b><br>${data.reason || 'Please try again later.'}`;
+        }
+    } catch (e) {
+        status.innerText = "Connection error. Check your internet.";
+    }
+}
+</script>
+</body>
+</html>
