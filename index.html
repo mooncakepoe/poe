@@ -27,38 +27,39 @@
         }
 
         .hero-banner {
-            position: relative; /* Required for QR code positioning */
+            position: relative;
             background: linear-gradient(135deg, var(--primary-color) 0%, #333 100%);
             color: white;
-            padding: 80px 20px;
+            padding: 90px 20px;
             text-align: center;
             border-bottom: 5px solid var(--accent-color);
             margin-bottom: 40px;
         }
 
-        /* --- QR CODE STYLING --- */
+        /* --- UPDATED QR CODE STYLING --- */
         .qr-container {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 40px;
+            right: 60px; /* Moved further inward from the edge */
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             text-align: center;
-            width: 100px;
+            width: 140px; /* Made it bigger */
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 10;
         }
-        .qr-container:hover { transform: scale(1.1); }
-        .qr-container img { width: 80px; height: 80px; }
+        .qr-container:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+        .qr-container img { width: 120px; height: 120px; } /* Bigger image */
         .qr-container span {
             font-family: 'Segoe UI', sans-serif;
-            font-size: 0.65rem;
-            color: #333;
-            margin-top: 5px;
+            font-size: 0.75rem;
+            color: #1a1a1a;
+            margin-top: 8px;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -156,18 +157,27 @@
         .opt-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .opt-card strong { color: var(--solution-blue); display: block; margin-bottom: 5px; font-family: 'Segoe UI', sans-serif; }
 
-        .table-mockup {
+        /* --- MOBILE TABLE FIX --- */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto; /* Allows horizontal swiping on mobile */
+            -webkit-overflow-scrolling: touch; /* Smooth swiping on iOS */
             margin-top: 20px;
-            font-size: 0.75rem;
+            border: 1px solid #eee;
+            border-radius: 6px;
+        }
+
+        .table-mockup {
             border-collapse: collapse;
             width: 100%;
+            min-width: 600px; /* Prevents columns from squishing too much */
             font-family: 'Segoe UI', sans-serif;
             background: #fff;
-            border: 1px solid #eee;
+            font-size: 0.8rem;
         }
-        .table-mockup th { background: #f7f7f7; text-align: left; padding: 10px; border-bottom: 2px solid #eee; color: #666; text-transform: uppercase; letter-spacing: 1px; }
-        .table-mockup td { padding: 10px; border-bottom: 1px solid #eee; color: #444; }
-        .file-tag { background: #e8f0fe; color: #1a73e8; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .table-mockup th { background: #f7f7f7; text-align: left; padding: 12px; border-bottom: 2px solid #eee; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .table-mockup td { padding: 12px; border-bottom: 1px solid #eee; color: #444; }
+        .file-tag { background: #e8f0fe; color: #1a73e8; padding: 4px 8px; border-radius: 4px; font-weight: bold; white-space: nowrap; }
 
         .cta-section {
             text-align: center;
@@ -187,9 +197,21 @@
         footer { text-align: center; font-size: 0.85rem; color: #b2bec3; margin-top: 60px; padding-bottom: 40px; font-family: 'Segoe UI', sans-serif; }
         .tech-specs { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
 
-        @media (max-width: 768px) {
-            .qr-container { display: none; }
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 900px) {
+            .qr-container { 
+                position: static; /* Moves QR code below the title on tablets */
+                margin: 20px auto 0;
+                width: 140px;
+            }
+            .hero-banner { padding: 40px 20px; }
+        }
+
+        @media (max-width: 600px) {
             .management-options { grid-template-columns: 1fr; }
+            .hero-banner h1 { font-size: 2rem; }
+            .qr-container { width: 120px; }
+            .qr-container img { width: 100px; height: 100px; }
         }
     </style>
 </head>
@@ -295,31 +317,34 @@
                 </div>
             </div>
 
-            <table class="table-mockup">
-                <thead>
-                    <tr>
-                        <th>File Name</th>
-                        <th>Verified Date</th>
-                        <th>Block Height</th>
-                        <th>Evidence (.ots)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>my-invention.zip</td>
-                        <td>5 April 2025</td>
-                        <td>891075</td>
-                        <td><span class="file-tag">📎 proof.ots</span></td>
-                    </tr>
-                    <tr>
-                        <td>building-conditions.zip</td>
-                        <td>5 April 2025</td>
-                        <td>891075</td>
-                        <td><span class="file-tag">📎 proof.ots</span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="font-size: 0.8rem; color: #666; margin-top: 15px; font-style: italic;">Visual Example: A professional evidence log helps you stay audit-ready at all times.</p>
+            <!-- TABLE WRAPPER FOR MOBILE -->
+            <div class="table-wrapper">
+                <table class="table-mockup">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Verified Date</th>
+                            <th>Block Height</th>
+                            <th>Evidence (.ots)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>my-invention.zip</td>
+                            <td>5 April 2025</td>
+                            <td>891075</td>
+                            <td><span class="file-tag">📎 proof.ots</span></td>
+                        </tr>
+                        <tr>
+                            <td>building-conditions.zip</td>
+                            <td>5 April 2025</td>
+                            <td>891075</td>
+                            <td><span class="file-tag">📎 proof.ots</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 15px; font-style: italic;">Visual Example: A professional evidence log helps you stay audit-ready at all times. (Swipe table to view all columns on mobile)</p>
         </div>
     </section>
 
@@ -358,7 +383,7 @@
     window.onload = function() {
         const currentUrl = window.location.href;
         const qrImg = document.getElementById('qr-image');
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(currentUrl)}`;
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}`;
     };
 
     // Key Request Logic
